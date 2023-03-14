@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS ed_temp_ventas_frigidaire; 
+DROP TABLE IF EXISTS temp_ventas_segmentacion_general; 
 
-CREATE TEMPORARY TABLE ed_temp_ventas_frigidaire 
+CREATE TEMPORARY TABLE temp_ventas_segmentacion_general 
 SELECT documento,A.tipdoc, A.clidoc 
 , CASE 
 	when B.movtdd IS NULL then  
@@ -47,5 +47,5 @@ FROM (
 	GROUP BY fn_documento(A.tipdoc, A.clidoc), SUBSTRING(movcpe,1,2)  
 	) AS A LEFT JOIN ventasfraudes B ON A.tipdoc = B.movtdd AND A.clidoc = B.movndd #A.documento = fn_documento(B.movtdd, B.movndd)
 GROUP BY documento; 
-SELECT A.segmento, A.subsegmento, COUNT(*) AS numero_clientes FROM ed_temp_ventas_frigidaire A 
+SELECT A.segmento, A.subsegmento, COUNT(*) AS numero_clientes FROM temp_ventas_segmentacion_general A 
 GROUP BY A.segmento, A.subsegmento; 
